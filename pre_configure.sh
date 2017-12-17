@@ -34,10 +34,12 @@ case $ROLE in
 		chkconfig puppetmaster on
 		puppet module install puppet-mongodb
 		cp $REPO_DIR/puppet-master/autosign.conf /etc/puppet/
+		service puppetmaster start
 		;;
 	*)
 		# getting pupet agent
 		yum -y install puppet3
 		chkconfig puppet on
+		service puppet start
 		;;
 esac
