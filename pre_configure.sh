@@ -7,6 +7,8 @@ PUPPET_IP=$3
 REPO='https://github.com/freddygood/guacamole-test1.git'
 REPO_DIR='/tmp/guacamole-test1'
 
+echo "Boot at: $(date)" >> /tmp/boot.log
+
 # update packages
 yum -y update
 
