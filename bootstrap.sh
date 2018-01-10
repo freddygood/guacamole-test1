@@ -54,7 +54,7 @@ else
 
 	yum -y -d1 install puppet3
 	puppet agent --test
-	sleep 10
+	sleep 60
 	chkconfig puppet on
 	service puppet start
 
