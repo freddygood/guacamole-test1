@@ -53,9 +53,11 @@ if [ $ROLE == 'puppet' ]; then
 else
 
 	yum -y -d1 install puppet3
-	puppet agent --test
-	sleep 60
+	puppet agent
 	chkconfig puppet on
+	sleep 60
+	puppet agent
+	sleep 60
 	service puppet start
 
 fi
