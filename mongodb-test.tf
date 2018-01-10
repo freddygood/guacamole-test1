@@ -256,6 +256,7 @@ resource "null_resource" "config" {
 	}
 	provisioner "remote-exec" {
 		inline = [
+			"sudo puppet agent --test",
 			"sudo service puppet start",
 		]
 	}
@@ -332,6 +333,7 @@ resource "null_resource" "data" {
 	}
 	provisioner "remote-exec" {
 		inline = [
+			"sudo puppet agent --test",
 			"sudo service puppet start",
 		]
 	}
@@ -408,6 +410,7 @@ resource "null_resource" "router" {
 	}
 	provisioner "remote-exec" {
 		inline = [
+			"sudo puppet agent --test",
 			"sudo service puppet start",
 		]
 	}

@@ -58,3 +58,5 @@ else
 	# service puppet start
 
 fi
+
+exit 0
