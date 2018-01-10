@@ -185,7 +185,6 @@ resource "aws_route53_record" "puppet" {
 	records = [ "${aws_instance.puppet.0.private_ip}" ]
 }
 
-
 ### [ config instances ] ##########################################################################
 
 resource "aws_instance" "config" {
@@ -244,6 +243,22 @@ resource "aws_route53_record" "config" {
 	type = "A"
 	ttl = "300"
 	records = [ "${element(aws_instance.config.*.private_ip, count.index)}" ]
+}
+
+resource "null_resource" "config" {
+	count = "${var.instance_config_num}"
+	depends_on = ["aws_instance.config", "aws_route53_record.config"]
+	connection {
+		type = "ssh"
+		user = "ec2-user"
+		private_key = "${file(var.private_key_path)}"
+		host = "${element(aws_instance.config.*.public_ip, count.index)}"
+	}
+	provisioner "remote-exec" {
+		inline = [
+			"sudo service puppet start",
+		]
+	}
 }
 
 ### [ data instances ] ############################################################################
@@ -306,6 +321,22 @@ resource "aws_route53_record" "data" {
 	records = [ "${element(aws_instance.data.*.private_ip, count.index)}" ]
 }
 
+resource "null_resource" "data" {
+	count = "${var.instance_data_num}"
+	depends_on = ["aws_instance.data", "aws_route53_record.data"]
+	connection {
+		type = "ssh"
+		user = "ec2-user"
+		private_key = "${file(var.private_key_path)}"
+		host = "${element(aws_instance.data.*.public_ip, count.index)}"
+	}
+	provisioner "remote-exec" {
+		inline = [
+			"sudo service puppet start",
+		]
+	}
+}
+
 ### [ router instances ] ##########################################################################
 
 resource "aws_instance" "router" {
@@ -365,3 +396,21 @@ resource "aws_route53_record" "router" {
 	ttl = "300"
 	records = [ "${element(aws_instance.router.*.private_ip, count.index)}" ]
 }
+
+resource "null_resource" "router" {
+	count = "${var.instance_router_num}"
+	depends_on = ["aws_instance.router", "aws_route53_record.router"]
+	connection {
+		type = "ssh"
+		user = "ec2-user"
+		private_key = "${file(var.private_key_path)}"
+		host = "${element(aws_instance.router.*.public_ip, count.index)}"
+	}
+	provisioner "remote-exec" {
+		inline = [
+			"sudo service puppet start",
+		]
+	}
+}
+
+### [ done ] ######################################################################################
