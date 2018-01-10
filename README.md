@@ -1,6 +1,6 @@
 # guacamole-test1
 ## Preparing
-Для сборки проекта понадобится аккаунт в AWS и установленный terraform
+Для сборки проекта понадобится аккаунт в AWS и установленный terraform, а так же пара ключей для доступа к AWS
 ```
 git clone https://github.com/freddygood/guacamole-test1.git
 cd guacamole-test1
